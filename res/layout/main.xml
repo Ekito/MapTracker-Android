@@ -4,12 +4,34 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <com.google.android.maps.MapView
-        android:id="@+id/mapview"
-		 android:layout_width="fill_parent"
-		 android:layout_height="fill_parent"
-		 android:clickable="true"
-		 android:apiKey=""
-		 />
-
+    <TextView 
+        android:id="@+id/provider"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="Provider: ---"/>
+    
+    <TextView 
+        android:id="@+id/timestamp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="Last update at: ---"/>
+    
+    <TextView 
+        android:id="@+id/latitude"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="Latitude: ---"/>
+    
+    <TextView 
+        android:id="@+id/longitude"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="Longitude: ---"/>
+    
+    <TextView 
+        android:id="@+id/sent_to_server"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="Sent to server? ---"/>
+    
 </LinearLayout>
