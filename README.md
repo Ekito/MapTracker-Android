@@ -27,4 +27,8 @@ This example shows how to use different location providers following a specific 
 
 `LOC_MIN_TIME` is the minimum time interval for location updates, in milliseconds. `LOC_MIN_DIST` is the minimum distance interval for location updates, in meters. Play with these two values for your use case.
 
+## Foreground updates only
+
+Note that this app only track the location when the app is in foreground for performance concerns. For background updates, see [Little Fluffy location library](http://code.google.com/p/little-fluffy-location-library/).
+
 Please [let us know](https://github.com/Ekito/MapTracker-Android/issues) if you find any issues.
