@@ -8,7 +8,7 @@ import com.loopj.android.http.RequestParams;
 
 public class MTRestClient {
 	
-	private static final String BASE_URL = "http://192.168.5.118:9000/";
+	private static final String BASE_URL = "http://192.168.5.116:9000/";
 
 	private AsyncHttpClient client;
 	

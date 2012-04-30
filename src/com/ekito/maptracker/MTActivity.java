@@ -1,6 +1,7 @@
 package com.ekito.maptracker;
 
 import java.sql.Time;
+import java.util.Calendar;
 
 import android.app.Activity;
 import android.app.Notification;
@@ -30,24 +31,30 @@ public class MTActivity extends Activity implements LocationListener {
 	private static final int LOC_MIN_DIST = 0;
 	private static final CostStrategy DEFAULT_STRATEGY = CostStrategy.LOW;
 
+	private MTDeviceUuidFactory mUuidFactory;		// used to get device id
+	
 	private LocationManager mLocationManager;
 	private MTRestClient mClient;
 	private MTResponseHandler mHandler;
 	private CostStrategy mCostStrategy;
 	
-	private TextView mProviderTV, mTimestampTV, mLatitudeTV, mLongitudeTV, mSentToServerTV;
+	private TextView mDeviceID, mProviderTV, mTimestampTV, mLatitudeTV, mLongitudeTV, mSentToServerTV;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		
+		mDeviceID = (TextView) findViewById(R.id.device_id);
 		mProviderTV = (TextView) findViewById(R.id.provider);
 		mTimestampTV = (TextView) findViewById(R.id.timestamp);
 		mLatitudeTV = (TextView) findViewById(R.id.latitude);
 		mLongitudeTV = (TextView) findViewById(R.id.longitude);
 		mSentToServerTV = (TextView) findViewById(R.id.sent_to_server);
 
+		mUuidFactory = new MTDeviceUuidFactory(this);
+		mDeviceID.setText(mUuidFactory.getDeviceUuid().toString());
+		
 		mClient = new MTRestClient();
 		mHandler = new MTResponseHandler(mSentToServerTV);
 		mCostStrategy = DEFAULT_STRATEGY;
@@ -148,7 +155,6 @@ public class MTActivity extends Activity implements LocationListener {
 		.setWhen(System.currentTimeMillis())
 		.setAutoCancel(true)
 		.setTicker("Locaton updated")
-		.setContentTitle("Location update broadcast received")
 		.setContentText("Timestamped " + new Time(location.getTime()).toString());
 		Notification n = builder.getNotification();
 
@@ -156,8 +162,10 @@ public class MTActivity extends Activity implements LocationListener {
 
 		// send request to server
 		RequestParams params = new RequestParams();
+		params.put("id", mUuidFactory.getDeviceUuid().toString());
 		params.put("latitude", Double.toString(location.getLatitude()));
 		params.put("longitude", Double.toString(location.getLongitude()));
+		params.put("timestamp", Long.toString(Calendar.getInstance().getTimeInMillis()));
 
 		mClient.post("moveTo", params, mHandler);
 		
